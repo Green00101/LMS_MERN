@@ -1,4 +1,11 @@
 import CommonForm from "@/components/common-form";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signInFormControls, signUpFormControls } from "@/config";
 import { TabsContent } from "@radix-ui/react-tabs";
@@ -31,11 +38,37 @@ function AuthPage() {
             <TabsTrigger value="signin">Sign In</TabsTrigger>
             <TabsTrigger value="signup">Sign Up</TabsTrigger>
           </TabsList>
-          <TabsContent value="signin">
-            <CommonForm formControls={signInFormControls} />
+          <TabsContent value="signin" className="mt-2">
+            <Card className="p-6 space-y-4">
+              <CardHeader>
+                <CardTitle>Sign in to your account</CardTitle>
+                <CardDescription>
+                  Enter your email and password to access your account
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CommonForm
+                  formControls={signInFormControls}
+                  buttonText={"Sign In"}
+                ></CommonForm>
+              </CardContent>
+            </Card>
           </TabsContent>
-          <TabsContent value="signup">
-            <CommonForm formControls={signUpFormControls} />
+          <TabsContent value="signup" className="mt-2">
+            <Card className="p-6 space-y-4">
+              <CardHeader>
+                <CardTitle>Creat a new account</CardTitle>
+                <CardDescription>
+                  Enter your detail to get started
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <CommonForm
+                  formControls={signUpFormControls}
+                  buttonText={"Sign Up"}
+                ></CommonForm>
+              </CardContent>
+            </Card>
           </TabsContent>
         </Tabs>
       </div>
