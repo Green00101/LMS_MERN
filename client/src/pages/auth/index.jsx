@@ -8,17 +8,25 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { signInFormControls, signUpFormControls } from "@/config";
+import { AuthContext } from "@/context/auth-context";
 import { TabsContent } from "@radix-ui/react-tabs";
 import { GraduationCap } from "lucide-react";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 function AuthPage() {
   const [activeTab, setActiveTab] = useState("signin");
+  const {
+    signInFormData,
+    setSignInFormData,
+    signUpFormData,
+    setSignUpFormData,
+  } = useContext(AuthContext);
 
   function handleTabChange(value) {
     setActiveTab(value);
   }
+  console.log(signInFormData);
   return (
     <div className="flex flex-col min-h-screen">
       <header className="px-4 lg:px-6 h-14 flex items-center border-b">
@@ -50,6 +58,8 @@ function AuthPage() {
                 <CommonForm
                   formControls={signInFormControls}
                   buttonText={"Sign In"}
+                  formData={signInFormData}
+                  setFormData={setSignInFormData}
                 ></CommonForm>
               </CardContent>
             </Card>
@@ -66,6 +76,8 @@ function AuthPage() {
                 <CommonForm
                   formControls={signUpFormControls}
                   buttonText={"Sign Up"}
+                  formData={signUpFormData}
+                  setFormData={setSignUpFormData}
                 ></CommonForm>
               </CardContent>
             </Card>
