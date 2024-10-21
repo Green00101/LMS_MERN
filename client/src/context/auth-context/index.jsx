@@ -20,13 +20,12 @@ export default function AuthProvider({ children }) {
   async function handleLoginrUser(event) {
     event.preventDefault();
     const data = await loginServices(signInFormData);
-    console.log("Response Data:", data); // 输出响应对象的 data 属性
-    if (data.data.success) {
+    if (data.success) {
       sessionStorage.setItem(
         "accessToken",
-        JSON.stringify(data.data.data.accessToken)
+        JSON.stringify(data.data.accessToken)
       );
-      setAuth({ authenticate: true, user: data.data.data.user });
+      setAuth({ authenticate: true, user: data.data.user });
     } else {
       setAuth({ authenticate: false, user: null });
     }
@@ -34,8 +33,8 @@ export default function AuthProvider({ children }) {
 
   async function checkAuthUser() {
     const data = await checkAuthServices();
-    if (data.data.success) {
-      setAuth({ authenticate: true, user: data.data.data.user });
+    if (data.success) {
+      setAuth({ authenticate: true, user: data.data.user });
     } else {
       setAuth({ authenticate: false, user: null });
     }
