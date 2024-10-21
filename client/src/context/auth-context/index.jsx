@@ -53,6 +53,7 @@ export default function AuthProvider({ children }) {
         setSignUpFormData,
         handleRegisterUser,
         handleLoginrUser,
+        auth,
       }}
     >
       {children}

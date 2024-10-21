@@ -1,5 +1,5 @@
-function InstructorDashboard() {
-  return <div></div>;
+function InstructorDashboardpage() {
+  return <div>InstructorDashboard</div>;
 }
 
-export default InstructorDashboard;
+export default InstructorDashboardpage;
