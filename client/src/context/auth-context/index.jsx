@@ -1,6 +1,6 @@
 import { initialSignInFormData, initialSignUpFormData } from "@/config";
-import { registerServices, loginServices } from "@/services";
-import { createContext, useState } from "react";
+import { registerServices, loginServices, checkAuthServices } from "@/services";
+import { createContext, useEffect, useState } from "react";
 
 export const AuthContext = createContext(null);
 
@@ -27,9 +27,24 @@ export default function AuthProvider({ children }) {
         JSON.stringify(data.data.data.accessToken)
       );
       setAuth({ authenticate: true, user: data.data.data.user });
+    } else {
+      setAuth({ authenticate: false, user: null });
     }
   }
 
+  async function checkAuthUser() {
+    const data = await checkAuthServices();
+    if (data.data.success) {
+      setAuth({ authenticate: true, user: data.data.data.user });
+    } else {
+      setAuth({ authenticate: false, user: null });
+    }
+  }
+  useEffect(() => {
+    checkAuthUser();
+  }, []);
+
+  console.log(auth);
   return (
     <AuthContext.Provider
       value={{
