@@ -46,6 +46,7 @@ function InstructorDashboardpage() {
               <Button
                 className="w-full justify-start mb-2"
                 key={menuItems.value}
+                variant={activeTab === menuItems.value ? "secondary" : "ghost"}
                 onClick={
                   menuItems.value === "logout"
                     ? handleLogout
