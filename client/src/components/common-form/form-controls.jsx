@@ -9,8 +9,8 @@ import {
 } from "../ui/select";
 import { Textarea } from "../ui/textarea";
 
-function FormControls({ formControls = {}, formData, setFormData }) {
-  function renderComponentBYType(getControlItem) {
+function FormControls({ formControls = [], formData, setFormData }) {
+  function renderComponentByType(getControlItem) {
     let element = null;
     const currentControlItemValue = formData[getControlItem.name] || "";
 
@@ -48,9 +48,9 @@ function FormControls({ formControls = {}, formData, setFormData }) {
             </SelectTrigger>
             <SelectContent>
               {getControlItem.options && getControlItem.options.length > 0
-                ? getControlItem.options.map((opinionItem) => (
-                    <SelectItem key={opinionItem.id} value={opinionItem.id}>
-                      {opinionItem.lable}
+                ? getControlItem.options.map((optionItem) => (
+                    <SelectItem key={optionItem.id} value={optionItem.id}>
+                      {optionItem.label}
                     </SelectItem>
                   ))
                 : null}
@@ -99,7 +99,7 @@ function FormControls({ formControls = {}, formData, setFormData }) {
       {formControls.map((controleItem) => (
         <div key={controleItem.name}>
           <Label htmlFor={controleItem.name}>{controleItem.label}</Label>
-          {renderComponentBYType(controleItem)}
+          {renderComponentByType(controleItem)}
         </div>
       ))}
     </div>

@@ -1,6 +1,9 @@
+import CourseCurriculum from "@/components/instructor-view/courses/add-new-course/course-curriculum";
+import CourseLanding from "@/components/instructor-view/courses/add-new-course/course-landing";
+import CourseSetting from "@/components/instructor-view/courses/add-new-course/course-setting";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tabs } from "@radix-ui/react-tabs";
 
 function AddNewCoursePage() {
@@ -21,6 +24,15 @@ function AddNewCoursePage() {
                 </TabsTrigger>
                 <TabsTrigger value="Setting">Setting</TabsTrigger>
               </TabsList>
+              <TabsContent value="curriculum">
+                <CourseCurriculum />
+              </TabsContent>
+              <TabsContent value="course-landing-page">
+                <CourseLanding />
+              </TabsContent>
+              <TabsContent value="Setting">
+                <CourseSetting />
+              </TabsContent>
             </Tabs>
           </div>
         </CardContent>
