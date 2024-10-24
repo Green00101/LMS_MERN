@@ -7,6 +7,7 @@ const PORT = process.env.PORT || 5000;
 const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require("mongoose");
 const authRouters = require("./routes/auth-routes/index");
+const meidaRouters = require("./routes/instructor-routes/media-routes");
 
 app.use(
   cors({
@@ -24,7 +25,7 @@ mongoose
   .catch((e) => console.log(e));
 
 app.use("/auth", authRouters);
-
+app.use("/media", meidaRouters);
 app.use((err, req, res, next) => {
   console.log(err.stack);
   res.status(500).json({
