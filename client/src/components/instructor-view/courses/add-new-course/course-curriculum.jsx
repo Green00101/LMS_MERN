@@ -14,6 +14,8 @@ function CourseCurriculum() {
     setCourseCurriculumFormData,
     mediaUploadPregress,
     setMediaUploadProgress,
+    mediaUploadPregressPercentage,
+    setMediaUploadPregressPercentage,
   } = useContext(InstructorContext);
 
   function handleNewLecture() {
@@ -54,7 +56,10 @@ function CourseCurriculum() {
 
       try {
         setMediaUploadProgress(true);
-        const response = await mediaUploadService(videoFormData);
+        const response = await mediaUploadService(
+          videoFormData,
+          setMediaUploadPregressPercentage
+        );
         if (response.success) {
           let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
           cpyCourseCurriculumFormData[currentIndex] = {
