@@ -45,12 +45,14 @@ function CourseSetting() {
       <CardHeader>
         <CardTitle>Course Settings</CardTitle>
       </CardHeader>
-      {mediaUploadPregress ? (
-        <MediaProgressbar
-          isMediaUploading={mediaUploadPregress}
-          progress={mediaUploadPregressPercentage}
-        />
-      ) : null}
+      <div className="p-4">
+        {mediaUploadPregress ? (
+          <MediaProgressbar
+            isMediaUploading={mediaUploadPregress}
+            progress={mediaUploadPregressPercentage}
+          />
+        ) : null}
+      </div>
       <CardContent>
         {courseLandingFormData?.image ? (
           <img src={courseLandingFormData.image} />
