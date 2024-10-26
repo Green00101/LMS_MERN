@@ -6,7 +6,7 @@ import { Switch } from "@/components/ui/switch";
 import VideoPlayer from "@/components/video-player";
 import { courseCurriculumInitialFormData } from "@/config";
 import { InstructorContext } from "@/context/instructor-context";
-import { mediaUploadService } from "@/services";
+import { mediaDeleteService, mediaUploadService } from "@/services";
 import { Label } from "@radix-ui/react-label";
 import { useContext } from "react";
 
@@ -77,15 +77,48 @@ function CourseCurriculum() {
       }
     }
   }
+  async function handleReplaceVideo(currentIndex) {
+    let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentVideoPublicId =
+      cpyCourseCurriculumFormData[currentIndex].public_id;
 
+    const deleteCurrentMediaResponse = await mediaDeleteService(
+      getCurrentVideoPublicId
+    );
+    console.log(deleteCurrentMediaResponse);
+    if (deleteCurrentMediaResponse?.success) {
+      cpyCourseCurriculumFormData[currentIndex] = {
+        ...cpyCourseCurriculumFormData[currentIndex],
+        videoUrl: "",
+        public_id: "",
+      };
+      setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+    }
+  }
+  function isCourseCurriculumFormDataValid() {
+    return courseCurriculumFormData.every((item) => {
+      return (
+        item &&
+        typeof item === "object" &&
+        item.title.trim() !== "" &&
+        item.videoUrl.trim() !== ""
+      );
+    });
+  }
   console.log(courseCurriculumFormData);
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Creat Course Curriculum</CardTitle>
       </CardHeader>
       <CardContent>
-        <Button onClick={handleNewLecture}>Add Lecture</Button>
+        <Button
+          disabled={!isCourseCurriculumFormDataValid() || mediaUploadPregress}
+          onClick={handleNewLecture}
+        >
+          Add Lecture
+        </Button>
         {mediaUploadPregress ? (
           <MediaProgressbar
             isMediaUploading={mediaUploadPregress}
@@ -127,7 +160,13 @@ function CourseCurriculum() {
                       width="450px"
                       height="200px"
                     />
-                    <Button>Replace Video</Button>
+                    <Button
+                      onClick={() => {
+                        handleReplaceVideo(index);
+                      }}
+                    >
+                      Replace Video
+                    </Button>
                     <Button className="bg-red-900">Delete Lecture</Button>
                   </div>
                 ) : (
