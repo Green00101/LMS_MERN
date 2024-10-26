@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const LectureSchema = new mongoose.Mongoose.Schema({
+const LectureSchema = new mongoose.Schema({
   title: String,
   videoUrl: String,
   public_id: String,
