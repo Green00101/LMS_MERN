@@ -8,6 +8,7 @@ const MONGO_URI = process.env.MONGO_URI;
 const mongoose = require("mongoose");
 const authRouters = require("./routes/auth-routes/index");
 const meidaRouters = require("./routes/instructor-routes/media-routes");
+const instructorCourseRouters = require("./routes/instructor-routes/course-routes");
 
 app.use(
   cors({
@@ -26,6 +27,8 @@ mongoose
 
 app.use("/auth", authRouters);
 app.use("/media", meidaRouters);
+app.use("/instructor/course", instructorCourseRouters);
+
 app.use((err, req, res, next) => {
   console.log(err.stack);
   res.status(500).json({
