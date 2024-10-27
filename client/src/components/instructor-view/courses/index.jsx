@@ -53,7 +53,7 @@ function InstructorCourses({ listOfCourses }) {
                       <TableCell className="text-right">
                         <Button
                           onClick={() => {
-                            navigate(`/instructor/edit-course/${course?.id}`);
+                            navigate(`/instructor/edit-course/${course?._id}`);
                           }}
                           variant="ghost"
                           size="sm"

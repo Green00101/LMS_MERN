@@ -12,8 +12,8 @@ import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
 import { addNewCourseService } from "@/services";
 import { Tabs } from "@radix-ui/react-tabs";
-import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 
 function AddNewCoursePage() {
   const {
@@ -21,9 +21,15 @@ function AddNewCoursePage() {
     courseCurriculumFormData,
     setCourseLandingFormData,
     setCourseCurriculumFormData,
+    currentEditedCourseId,
+    setCurrentEditedCourseId,
   } = useContext(InstructorContext);
   const { auth } = useContext(AuthContext);
   const navigate = useNavigate();
+
+  const params = useParams();
+  console.log(params);
+
   function isEmpty(value) {
     if (Array.isArray(value)) {
       return value.length === 0;
@@ -70,6 +76,14 @@ function AddNewCoursePage() {
     }
     console.log(courseFinalFormData);
   }
+
+  useEffect(() => {
+    console.log(currentEditedCourseId);
+  }, [currentEditedCourseId]);
+
+  useEffect(() => {
+    if (params) setCurrentEditedCourseId(params?.courseId);
+  }, [params]);
 
   return (
     <div className="container mx-auto p-4">
