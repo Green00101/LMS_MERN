@@ -1,15 +1,32 @@
 import InstructorCourses from "@/components/instructor-view/courses";
 import { Button } from "@/components/ui/button";
 import { TabsContent } from "@/components/ui/tabs";
-import { Tabs } from "@radix-ui/react-tabs";
+import { Tabs } from "@/components/ui/tabs";
 import { BarChart, Book, LogOut } from "lucide-react";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import InstructorDashBoard from "@/components/instructor-view/dashboard";
 import { AuthContext } from "@/context/auth-context";
+import { InstructorContext } from "@/context/instructor-context";
+import { fetchInstructorCourseListService } from "@/services";
 
 function InstructorDashboardpage() {
   const [activeTab, setActiveTab] = useState("dashboard");
-  const { restCredentials } = useContext(AuthContext);
+  const { resetCredentials } = useContext(AuthContext);
+  const { instructorCoursesList, setInstructorCoursesList } =
+    useContext(InstructorContext);
+
+  async function fetchAllCourses() {
+    const response = await fetchInstructorCourseListService();
+    console.log(response?.success);
+    console.log(response?.data);
+
+    if (response?.success) {
+      setInstructorCoursesList(response?.data);
+    }
+  }
+  useEffect(() => {
+    fetchAllCourses();
+  }, []);
   const menuItems = [
     {
       icon: BarChart,
@@ -21,7 +38,7 @@ function InstructorDashboardpage() {
       icon: Book,
       label: "Courses",
       value: "courses",
-      component: <InstructorCourses />,
+      component: <InstructorCourses listOfCourses={instructorCoursesList} />,
     },
     {
       icon: LogOut,
@@ -32,8 +49,8 @@ function InstructorDashboardpage() {
   ];
 
   function handleLogout() {
-    restCredentials();
-    sessionStorage.clear;
+    resetCredentials();
+    sessionStorage.clear();
   }
 
   return (

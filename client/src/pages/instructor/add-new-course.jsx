@@ -13,6 +13,7 @@ import { InstructorContext } from "@/context/instructor-context";
 import { addNewCourseService } from "@/services";
 import { Tabs } from "@radix-ui/react-tabs";
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 
 function AddNewCoursePage() {
   const {
@@ -22,6 +23,7 @@ function AddNewCoursePage() {
     setCourseCurriculumFormData,
   } = useContext(InstructorContext);
   const { auth } = useContext(AuthContext);
+  const navigate = useNavigate();
   function isEmpty(value) {
     if (Array.isArray(value)) {
       return value.length === 0;
@@ -61,9 +63,11 @@ function AddNewCoursePage() {
       isPublised: true,
     };
     const response = await addNewCourseService(courseFinalFormData);
+    console.log(response);
     if (response.success) {
       setCourseLandingFormData(courseLandingInitialFormData);
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
+      navigate(-1);
     }
     console.log(courseFinalFormData);
   }

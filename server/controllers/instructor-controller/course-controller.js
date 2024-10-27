@@ -24,7 +24,7 @@ const addNewCourse = async (req, res) => {
 
 const getAllCourse = async (req, res) => {
   try {
-    const courseList = -(await Course.find({}));
+    const courseList = await Course.find({});
     res.status(200).json({
       success: true,
       data: courseList,
@@ -41,16 +41,16 @@ const getAllCourse = async (req, res) => {
 const getCourseDetailsById = async (req, res) => {
   try {
     const { id } = req.params;
-    const CourseDetails = await Course.findById(id);
-    if (!CourseDetails) {
+    const courseDetails = await Course.findById(id);
+    if (!courseDetails) {
       return res.status(404).json({
         success: false,
-        message: "Course not found",
+        message: "course not found",
       });
     }
     res.status(200).json({
       success: true,
-      data: CourseDetails,
+      data: courseDetails,
     });
   } catch (e) {
     console.log(e);
