@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
@@ -9,7 +10,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { InstructorContext } from "@/context/instructor-context";
 import { Delete, Edit } from "lucide-react";
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 function InstructorCourses({ listOfCourses }) {
@@ -48,7 +51,13 @@ function InstructorCourses({ listOfCourses }) {
                       <TableCell>{course?.student.length}</TableCell>
                       <TableCell>${course?.pricing}</TableCell>
                       <TableCell className="text-right">
-                        <Button variant="ghost" size="sm">
+                        <Button
+                          onClick={() => {
+                            navigate(`/instructor/edit-course/${course?.id}`);
+                          }}
+                          variant="ghost"
+                          size="sm"
+                        >
                           <Edit className="h-6 w-6" />
                         </Button>
                         <Button variant="ghost" size="sm">

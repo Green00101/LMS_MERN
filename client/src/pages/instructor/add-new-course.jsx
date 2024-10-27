@@ -63,7 +63,6 @@ function AddNewCoursePage() {
       isPublised: true,
     };
     const response = await addNewCourseService(courseFinalFormData);
-    console.log(response);
     if (response.success) {
       setCourseLandingFormData(courseLandingInitialFormData);
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
