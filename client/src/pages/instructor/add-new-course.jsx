@@ -10,7 +10,10 @@ import {
 } from "@/config";
 import { AuthContext } from "@/context/auth-context";
 import { InstructorContext } from "@/context/instructor-context";
-import { addNewCourseService } from "@/services";
+import {
+  addNewCourseService,
+  fetchInstructorCourseDetailsService,
+} from "@/services";
 import { Tabs } from "@radix-ui/react-tabs";
 import { useContext, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -77,8 +80,24 @@ function AddNewCoursePage() {
     console.log(courseFinalFormData);
   }
 
+  async function fetchCurrentCourseDetails() {
+    const response = await fetchInstructorCourseDetailsService(
+      currentEditedCourseId
+    );
+    if (response?.success) {
+      const setCourseFormData = Object.keys(
+        courseLandingInitialFormData
+      ).reduce((acc, key) => {
+        acc[key] = response?.data[key] || courseCurriculumInitialFormData[key];
+        return acc;
+      }, {});
+      console.log(setCourseFormData);
+      setCourseLandingFormData(setCourseFormData);
+      setCourseCurriculumFormData(response.data.curriculum);
+    }
+  }
   useEffect(() => {
-    console.log(currentEditedCourseId);
+    if (currentEditedCourseId !== null) fetchCurrentCourseDetails();
   }, [currentEditedCourseId]);
 
   useEffect(() => {
