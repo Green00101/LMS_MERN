@@ -101,8 +101,8 @@ function AddNewCoursePage() {
   }, [currentEditedCourseId]);
 
   useEffect(() => {
-    if (params) setCurrentEditedCourseId(params?.courseId);
-  }, [params]);
+    if (params?.courseId) setCurrentEditedCourseId(params?.courseId);
+  }, [params?.courseId]);
 
   return (
     <div className="container mx-auto p-4">
