@@ -11,7 +11,7 @@ import { fetchInstructorCourseListService } from "@/services";
 
 function InstructorDashboardpage() {
   const [activeTab, setActiveTab] = useState("dashboard");
-  const { resetCredentials } = useContext(AuthContext);
+  const { restCredentials } = useContext(AuthContext);
   const { instructorCoursesList, setInstructorCoursesList } =
     useContext(InstructorContext);
 
@@ -49,7 +49,7 @@ function InstructorDashboardpage() {
   ];
 
   function handleLogout() {
-    resetCredentials();
+    restCredentials();
     sessionStorage.clear();
   }
 
