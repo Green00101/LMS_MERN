@@ -13,6 +13,7 @@ import { InstructorContext } from "@/context/instructor-context";
 import {
   addNewCourseService,
   fetchInstructorCourseDetailsService,
+  updateCourseByIdService,
 } from "@/services";
 import { Tabs } from "@radix-ui/react-tabs";
 import { useContext, useEffect } from "react";
@@ -71,11 +72,18 @@ function AddNewCoursePage() {
       curriculum: courseCurriculumFormData,
       isPublised: true,
     };
-    const response = await addNewCourseService(courseFinalFormData);
+    const response =
+      currentEditedCourseId !== null
+        ? await updateCourseByIdService(
+            currentEditedCourseId,
+            courseFinalFormData
+          )
+        : await addNewCourseService(courseFinalFormData);
     if (response.success) {
       setCourseLandingFormData(courseLandingInitialFormData);
       setCourseCurriculumFormData(courseCurriculumInitialFormData);
       navigate(-1);
+      setCurrentEditedCourseId(null);
     }
     console.log(courseFinalFormData);
   }

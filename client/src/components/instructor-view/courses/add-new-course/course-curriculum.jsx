@@ -144,7 +144,7 @@ function CourseCurriculum() {
                     onCheckedChange={(value) =>
                       handleFreePreviewChange(value, index)
                     }
-                    checked={courseCurriculumFormData[index]?.freePrevire}
+                    checked={courseCurriculumFormData[index]?.freePreview}
                     id={`freePreview-${index + 1}`}
                   />
                   <Label htmlFor={`freePreview-${index + 1}`}>
