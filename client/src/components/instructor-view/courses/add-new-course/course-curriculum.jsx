@@ -159,7 +159,18 @@ function CourseCurriculum() {
     });
   }
   console.log(courseCurriculumFormData);
-
+  async function handleDeleteLecture(currentIndex) {
+    let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
+    const getCurrentSelectedVideoPublicId =
+      cpyCourseCurriculumFormData[currentIndex].public_id;
+    const respones = await mediaDeleteService(getCurrentSelectedVideoPublicId);
+    if (respones?.success) {
+      cpyCourseCurriculumFormData = cpyCourseCurriculumFormData.filter(
+        (_, index) => index !== currentIndex
+      );
+      setCourseCurriculumFormData(cpyCourseCurriculumFormData);
+    }
+  }
   return (
     <Card>
       <CardHeader className="flex flex-row justify-between">
@@ -241,7 +252,12 @@ function CourseCurriculum() {
                     >
                       Replace Video
                     </Button>
-                    <Button className="bg-red-900">Delete Lecture</Button>
+                    <Button
+                      onClick={() => handleDeleteLecture(index)}
+                      className="bg-red-900"
+                    >
+                      Delete Lecture
+                    </Button>
                   </div>
                 ) : (
                   <Input
