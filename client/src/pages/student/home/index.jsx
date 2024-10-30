@@ -1,8 +1,13 @@
 import { courseCategories } from "@/config";
 import courseBanner from "./../../../../public/course.png";
 import { Button } from "@/components/ui/button";
+import { useContext } from "react";
+import { StudentContext } from "@/context/student-context";
 
 function StudentHomePage() {
+  const { studentCoursesList, setStudentCoursesList } =
+    useContext(StudentContext);
+
   return (
     <div className="min-h-screen bg-white">
       <section className="flex flex-col lg:flex-row items-center justify-between py-8 px-4 lg:px-8">
