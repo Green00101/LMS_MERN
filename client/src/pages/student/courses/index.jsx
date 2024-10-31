@@ -16,10 +16,35 @@ import { fetchStudentViewCourseListService } from "@/services";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 
 function StudentViewCoursesPage() {
-  const [sort, setSort] = useState("");
+  const [sort, setSort] = useState("price-lowtohigh");
+
+  const [filters, setFliters] = useState({});
   const { studentViewCoursesList, setStudentViewCourseList } =
     useContext(StudentContext);
-
+  function handleFilterOnChange(getSectionId, getCurrentOption) {
+    let cpyFilters = { ...filters };
+    const indexOfCurrentSeection =
+      Object.keys(cpyFilters).indexOf(getSectionId);
+    console.log(indexOfCurrentSeection, getSectionId);
+    if (indexOfCurrentSeection === -1) {
+      cpyFilters = {
+        ...cpyFilters,
+        [getSectionId]: [getCurrentOption.id],
+      };
+      console.log(cpyFilters);
+    } else {
+      const indexOfCurrentOption = cpyFilters[getSectionId].indexOf(
+        getCurrentOption.id
+      );
+      if (indexOfCurrentOption === -1) {
+        cpyFilters[getSectionId].push(getCurrentOption.id);
+      } else {
+        cpyFilters[getSectionId].splice(indexOfCurrentOption, 1);
+      }
+    }
+    setFliters(cpyFilters);
+    sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
+  }
   async function fetchAllStudentViewCourses() {
     const response = await fetchStudentViewCourseListService();
     if (response?.success) setStudentViewCourseList(response?.data);
@@ -29,6 +54,9 @@ function StudentViewCoursesPage() {
   useEffect(() => {
     fetchAllStudentViewCourses();
   }, []);
+
+  console.log(filters);
+
   return (
     <div className="container mx-auto p-4 ">
       <h1 className="text-3xl font-bold mb-4">All Courses</h1>
@@ -42,9 +70,14 @@ function StudentViewCoursesPage() {
                   {filterOptions[keyItem].map((option) => (
                     <Label className="flex font-medium items-center gap-3">
                       <Checkbox
-                        checked={false}
+                        checked={
+                          filters &&
+                          Object.keys(filters).length > 0 &&
+                          filters[keyItem] &&
+                          filters[keyItem].indexOf(option.id) > -1
+                        }
                         onCheckedChange={() =>
-                          handleFilterOnChange(keyItem, option.id)
+                          handleFilterOnChange(keyItem, option)
                         }
                       />
                       {option.label}
