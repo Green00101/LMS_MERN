@@ -14,13 +14,26 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { StudentContext } from "@/context/student-context";
 import { fetchStudentViewCourseListService } from "@/services";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
+import { createSearchParams, useSearchParams } from "react-router-dom";
 
+function createSearchParamsHelper(filterParams) {
+  const queryParams = [];
+  for (const [key, value] of Object.entries(filterParams)) {
+    if (Array.isArray(value)) {
+      const paramValue = value.join(",");
+      queryParams.push(`${key}=${encodeURIComponent(paramValue)}`);
+    }
+  }
+  return queryParams.join("&");
+}
 function StudentViewCoursesPage() {
   const [sort, setSort] = useState("price-lowtohigh");
-
+  const [searchParams, setSearchParams] = useSearchParams();
   const [filters, setFliters] = useState({});
   const { studentViewCoursesList, setStudentViewCourseList } =
     useContext(StudentContext);
+  // const category
+
   function handleFilterOnChange(getSectionId, getCurrentOption) {
     let cpyFilters = { ...filters };
     const indexOfCurrentSeection =
@@ -45,15 +58,25 @@ function StudentViewCoursesPage() {
     setFliters(cpyFilters);
     sessionStorage.setItem("filters", JSON.stringify(cpyFilters));
   }
-  async function fetchAllStudentViewCourses() {
-    const response = await fetchStudentViewCourseListService();
+  async function fetchAllStudentViewCourses(filters, sort) {
+    const query = new URLSearchParams({
+      ...filters,
+      sortBy: sort,
+    });
+    const response = await fetchStudentViewCourseListService(query);
     if (response?.success) setStudentViewCourseList(response?.data);
     console.log(response);
   }
 
   useEffect(() => {
-    fetchAllStudentViewCourses();
-  }, []);
+    const buildQueryStringForFilters = createSearchParamsHelper(filters);
+    setSearchParams(new URLSearchParams(buildQueryStringForFilters));
+  }, [filters]);
+
+  useEffect(() => {
+    if (filters !== null && sort !== null)
+      fetchAllStudentViewCourses(filters, sort);
+  }, [filters, sort]);
 
   console.log(filters);
 
