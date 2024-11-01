@@ -1,5 +1,7 @@
+import { Skeleton } from "@/components/ui/skeleton";
 import { StudentContext } from "@/context/student-context";
-import { useContext } from "react";
+import { fetchStudentViewCourseDetailsService } from "@/services";
+import { useContext, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 function StudentViewCourseDetailsPage() {
@@ -8,10 +10,32 @@ function StudentViewCourseDetailsPage() {
     setStudentViewCourseDetails,
     currentCourseDetailsId,
     setCurrentCourseDetailsId,
+    loadingState,
+    setLoadingState,
   } = useContext(StudentContext);
-  const params = useParams();
-  console.log(params);
+  const { id } = useParams();
 
+  async function fetchStudentViewCourseDetails() {
+    const response = await fetchStudentViewCourseDetailsService(
+      currentCourseDetailsId
+    );
+    if (response?.success) {
+      setStudentViewCourseDetails(response?.data);
+      setLoadingState(false);
+    } else {
+      setStudentViewCourseDetails(null);
+      setLoadingState(false);
+    }
+  }
+
+  useEffect(() => {
+    if (currentCourseDetailsId !== null) fetchStudentViewCourseDetails();
+  }, [currentCourseDetailsId]);
+  useEffect(() => {
+    if (id) setCurrentCourseDetailsId(id);
+  }, [id]);
+
+  if (loadingState) return <Skeleton />;
   return <div>StudentViewCourseDetailsPage</div>;
 }
 
