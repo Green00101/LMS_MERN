@@ -20,11 +20,12 @@ const CourseSchema = new mongoose.Schema({
   welcomeMessage: String,
   pricing: Number,
   objectives: String,
-  student: [
+  students: [
     {
       studentId: String,
       studentName: String,
       studentEmail: String,
+      paidAmount: String,
     },
   ],
   curriculum: [LectureSchema],
