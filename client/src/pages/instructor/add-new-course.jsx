@@ -68,7 +68,7 @@ function AddNewCoursePage() {
       instructorName: auth?.user?.userName,
       date: new Date(),
       ...courseLandingFormData,
-      student: [],
+      students: [],
       curriculum: courseCurriculumFormData,
       isPublised: true,
     };

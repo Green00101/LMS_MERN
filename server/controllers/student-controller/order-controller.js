@@ -118,6 +118,52 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
     order.payerId = payerId;
 
     await order.save();
+
+    const StudentCourses = await StudentCourses.findOne({
+      userId: order.userId,
+    });
+    if (StudentCourses) {
+      StudentCourses.courses.push({
+        courseId: order.courseId,
+        title: order.title,
+        instructorId: order.instructorId,
+        instructorName: order.instructorName,
+        deteOfPurchase: order.orderDate,
+        courseImage: order.courseImage,
+      });
+      await StudentCourses.save();
+    } else {
+      const newStudentCourses = new StudentCourses({
+        userId: order.userId,
+        courses: [
+          {
+            courseId: order.courseId,
+            title: order.title,
+            instructorId: order.instructorId,
+            instructorName: order.instructorName,
+            deteOfPurchase: order.orderDate,
+            courseImage: order.courseImage,
+          },
+        ],
+      });
+      await newStudentCourses.save();
+    }
+
+    await Course.findByIdAndUpdate(order.courseId, {
+      $addToSet: {
+        students: {
+          studentId: order.userId,
+          studentName: order.userName,
+          studentEmail: order.userEmail,
+          paidAmount: order.coursePricing,
+        },
+      },
+    });
+    res.status(200).json({
+      success: true,
+      message: "Order confirm",
+      data: order,
+    });
   } catch (err) {
     res.status(500).json({
       success: false,

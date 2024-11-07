@@ -63,7 +63,7 @@ function InstructorCourses({ listOfCourses }) {
                       <TableCell className="font-medium">
                         {course?.title}
                       </TableCell>
-                      <TableCell>{course?.student.length}</TableCell>
+                      <TableCell>{course?.students.length}</TableCell>
                       <TableCell>${course?.pricing}</TableCell>
                       <TableCell className="text-right">
                         <Button
