@@ -11,6 +11,7 @@ const meidaRouters = require("./routes/instructor-routes/media-routes");
 const instructorCourseRouters = require("./routes/instructor-routes/course-routes");
 const studentViewCourseRoutes = require("./routes/student-routes/course-routes");
 const studentViewOrderRoutes = require("./routes/student-routes/order-routes");
+const studentCoursesRoutes = require("./routes/student-routes/student-courses-routes");
 
 app.use(
   cors({
@@ -32,6 +33,7 @@ app.use("/media", meidaRouters);
 app.use("/instructor/course", instructorCourseRouters);
 app.use("/student/course", studentViewCourseRoutes);
 app.use("/student/order", studentViewOrderRoutes);
+app.use("/student/courses-bought", studentCoursesRoutes);
 
 app.use((err, req, res, next) => {
   console.log(err.stack);
