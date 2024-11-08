@@ -12,7 +12,10 @@ import { useContext, useEffect, useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { StudentContext } from "@/context/student-context";
-import { fetchStudentViewCourseListService } from "@/services";
+import {
+  checkCoursePurchaseInfoService,
+  fetchStudentViewCourseListService,
+} from "@/services";
 import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import {
   createSearchParams,
@@ -20,6 +23,7 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { Skeleton } from "@/components/ui/skeleton";
+import { AuthContext } from "@/context/auth-context";
 
 function createSearchParamsHelper(filterParams) {
   const queryParams = [];
@@ -34,6 +38,7 @@ function createSearchParamsHelper(filterParams) {
 function StudentViewCoursesPage() {
   const [sort, setSort] = useState("price-lowtohigh");
   const [searchParams, setSearchParams] = useSearchParams();
+  const { auth } = useContext(AuthContext);
   const [filters, setFliters] = useState({});
   const {
     studentViewCoursesList,
@@ -79,6 +84,19 @@ function StudentViewCoursesPage() {
       setLoadingState(false);
     }
     console.log(response);
+  }
+  async function handleCourseNavigate(getCurrentCourseId) {
+    const response = await checkCoursePurchaseInfoService(
+      getCurrentCourseId,
+      auth?.user?._id
+    );
+    if (response?.success) {
+      if (response?.data) {
+        navigate(`/course-progress/${getCurrentCourseId}`);
+      } else {
+        navigate(`/course/details/${getCurrentCourseId}`);
+      }
+    }
   }
 
   useEffect(() => {
@@ -174,7 +192,7 @@ function StudentViewCoursesPage() {
             {studentViewCoursesList && studentViewCoursesList.length > 0 ? (
               studentViewCoursesList.map((courseItem) => (
                 <Card
-                  onClick={() => navigate(`/course/details/${courseItem?._id}`)}
+                  onClick={() => handleCourseNavigate(courseItem?._id)}
                   className="cursor-pointer"
                   key={courseItem?._id}
                 >

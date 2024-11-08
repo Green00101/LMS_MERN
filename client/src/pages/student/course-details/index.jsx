@@ -37,7 +37,7 @@ function StudentViewCourseDetailsPage() {
   const [displayCurrentVideoFreePreview, setDisplayCurrentVideoFreePreview] =
     useState(null);
   const [showFreePreviewDialog, setShowFreePreviewDialog] = useState(false);
-  const [coursePurchaseId, setCoursePurchaseId] = useState(null);
+
   const { id } = useParams();
   const location = useLocation();
   const { auth } = useContext(AuthContext);
@@ -45,16 +45,15 @@ function StudentViewCourseDetailsPage() {
 
   async function fetchStudentViewCourseDetails() {
     const response = await fetchStudentViewCourseDetailsService(
-      currentCourseDetailsId,
-      auth?.user?._id
+      currentCourseDetailsId
     );
     if (response?.success) {
       setStudentViewCourseDetails(response?.data);
-      setCoursePurchaseId(response.coursePurchaseId);
+
       setLoadingState(false);
     } else {
       setStudentViewCourseDetails(null);
-      setCoursePurchaseId(false);
+
       setLoadingState(false);
     }
   }
@@ -99,7 +98,6 @@ function StudentViewCourseDetailsPage() {
   useEffect(() => {
     if (!location.pathname.includes("course/details"))
       setStudentViewCourseDetails(null), setCurrentCourseDetailsId(null);
-    setCoursePurchaseId(null);
   }, [location.pathname]);
   useEffect(() => {
     if (currentCourseDetailsId !== null) fetchStudentViewCourseDetails();
@@ -109,10 +107,6 @@ function StudentViewCourseDetailsPage() {
   }, [id]);
 
   if (loadingState) return <Skeleton />;
-
-  if (coursePurchaseId !== null) {
-    return <Navigate to={`/course-progress/${coursePurchaseId}`} />;
-  }
 
   if (approvalUrl !== "") {
     window.location.href = approvalUrl;
