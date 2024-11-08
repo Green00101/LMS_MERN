@@ -104,6 +104,7 @@ const createOrder = async (req, res) => {
 const capturePaymentAndFinalizeOrder = async (req, res) => {
   try {
     const { paymentId, payerId, orderId } = req.body;
+
     let order = await Order.findById(orderId);
 
     if (!order) {
@@ -112,6 +113,7 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
         message: "Order can not be found",
       });
     }
+
     order.paymentStatus = "paid";
     order.orderStatus = "confirmed";
     order.paymentId = paymentId;
@@ -119,36 +121,41 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
 
     await order.save();
 
-    const StudentCourses = await StudentCourses.findOne({
+    //update out student course model
+    const studentCourses = await StudentCourses.findOne({
       userId: order.userId,
     });
-    if (StudentCourses) {
-      StudentCourses.courses.push({
+
+    if (studentCourses) {
+      studentCourses.courses.push({
         courseId: order.courseId,
-        title: order.title,
+        title: order.courseTitle,
         instructorId: order.instructorId,
         instructorName: order.instructorName,
-        deteOfPurchase: order.orderDate,
+        dateOfPurchase: order.orderDate,
         courseImage: order.courseImage,
       });
-      await StudentCourses.save();
+
+      await studentCourses.save();
     } else {
       const newStudentCourses = new StudentCourses({
         userId: order.userId,
         courses: [
           {
             courseId: order.courseId,
-            title: order.title,
+            title: order.courseTitle,
             instructorId: order.instructorId,
             instructorName: order.instructorName,
-            deteOfPurchase: order.orderDate,
+            dateOfPurchase: order.orderDate,
             courseImage: order.courseImage,
           },
         ],
       });
+
       await newStudentCourses.save();
     }
 
+    //update the course schema students
     await Course.findByIdAndUpdate(order.courseId, {
       $addToSet: {
         students: {
@@ -159,12 +166,14 @@ const capturePaymentAndFinalizeOrder = async (req, res) => {
         },
       },
     });
+
     res.status(200).json({
       success: true,
-      message: "Order confirm",
+      message: "Order confirmed",
       data: order,
     });
   } catch (err) {
+    console.log(err);
     res.status(500).json({
       success: false,
       message: "Some error occured!",
