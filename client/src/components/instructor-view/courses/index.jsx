@@ -1,10 +1,8 @@
-/* eslint-disable react/jsx-key */
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -22,7 +20,6 @@ import { useNavigate } from "react-router-dom";
 function InstructorCourses({ listOfCourses }) {
   const navigate = useNavigate();
   const {
-    currentEditedCourseId,
     setCurrentEditedCourseId,
     setCourseLandingFormData,
     setCourseCurriculumFormData,
@@ -31,17 +28,17 @@ function InstructorCourses({ listOfCourses }) {
   return (
     <Card>
       <CardHeader className="flex justify-between flex-row items-center">
-        <CardTitle className="text-3xl font-extrabold">All Course</CardTitle>
+        <CardTitle className="text-3xl font-extrabold">All Courses</CardTitle>
         <Button
           onClick={() => {
             setCurrentEditedCourseId(null);
-            navigate("/instructor/create-new-course");
             setCourseLandingFormData(courseLandingInitialFormData);
             setCourseCurriculumFormData(courseCurriculumInitialFormData);
+            navigate("/instructor/create-new-course");
           }}
           className="p-6"
         >
-          Creat new Course
+          Create New Course
         </Button>
       </CardHeader>
       <CardContent>
@@ -50,21 +47,22 @@ function InstructorCourses({ listOfCourses }) {
             <TableHeader>
               <TableRow>
                 <TableHead>Course</TableHead>
-                <TableHead>Student</TableHead>
+                <TableHead>Students</TableHead>
                 <TableHead>Revenue</TableHead>
                 <TableHead className="text-right">Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {console.log(listOfCourses)}
               {listOfCourses && listOfCourses.length > 0
                 ? listOfCourses.map((course) => (
                     <TableRow>
                       <TableCell className="font-medium">
                         {course?.title}
                       </TableCell>
-                      <TableCell>{course?.students.length}</TableCell>
-                      <TableCell>${course?.pricing}</TableCell>
+                      <TableCell>{course?.students?.length}</TableCell>
+                      <TableCell>
+                        ${course?.students?.length * course?.pricing}
+                      </TableCell>
                       <TableCell className="text-right">
                         <Button
                           onClick={() => {
