@@ -32,7 +32,6 @@ function AddNewCoursePage() {
   const navigate = useNavigate();
 
   const params = useParams();
-  console.log(params);
 
   function isEmpty(value) {
     if (Array.isArray(value)) {
@@ -85,7 +84,6 @@ function AddNewCoursePage() {
       navigate(-1);
       setCurrentEditedCourseId(null);
     }
-    console.log(courseFinalFormData);
   }
 
   async function fetchCurrentCourseDetails() {
@@ -99,7 +97,7 @@ function AddNewCoursePage() {
         acc[key] = response?.data[key] || courseCurriculumInitialFormData[key];
         return acc;
       }, {});
-      console.log(setCourseFormData);
+
       setCourseLandingFormData(setCourseFormData);
       setCourseCurriculumFormData(response.data.curriculum);
     }

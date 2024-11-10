@@ -19,10 +19,8 @@ function StudentHomePage() {
   async function fetchAllStudentViewCourses() {
     const response = await fetchStudentViewCourseListService();
     if (response?.success) setStudentViewCourseList(response?.data);
-    console.log(response);
   }
   function handleNavigateToCoursesPage(getCurrentId) {
-    console.log(getCurrentId);
     sessionStorage.removeItem("filters");
     const currentFilter = {
       category: [getCurrentId],

@@ -38,7 +38,6 @@ app.use("/student/courses-bought", studentCoursesRoutes);
 app.use("/student/course-progress", studentCourseProgressRoutes);
 
 app.use((err, req, res, next) => {
-  console.log(err.stack);
   res.status(500).json({
     success: false,
     message: "something went wrong",

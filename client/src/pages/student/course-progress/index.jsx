@@ -116,8 +116,6 @@ function StudentViewCourseProgressPage() {
     if (showConfetti) setTimeout(() => setShowConfetti(false), 15000);
   }, [showConfetti]);
 
-  console.log(currentLecture, "currentLecture");
-
   return (
     <div className="flex flex-col h-screen bg-[#1c1d1f] text-white">
       {showConfetti && <Confetti />}

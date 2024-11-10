@@ -63,7 +63,6 @@ function StudentViewCourseDetailsPage() {
       navigate(`/course-progress/${currentCourseDetailsId}`);
       return;
     }
-    // console.log(checkCoursePurchaseInfoResponse);
 
     const response = await fetchStudentViewCourseDetailsService(
       currentCourseDetailsId
@@ -96,7 +95,7 @@ function StudentViewCourseDetailsPage() {
       courseId: studentViewCourseDetails?._id,
       coursePricing: studentViewCourseDetails?.pricing,
     };
-    console.log(paymentPayLoad, "paymentPayLoad");
+
     const response = await createPaymentService(paymentPayLoad);
 
     if (response.success) {

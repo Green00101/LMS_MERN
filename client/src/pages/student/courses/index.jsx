@@ -52,13 +52,12 @@ function StudentViewCoursesPage() {
     let cpyFilters = { ...filters };
     const indexOfCurrentSeection =
       Object.keys(cpyFilters).indexOf(getSectionId);
-    console.log(indexOfCurrentSeection, getSectionId);
+
     if (indexOfCurrentSeection === -1) {
       cpyFilters = {
         ...cpyFilters,
         [getSectionId]: [getCurrentOption.id],
       };
-      console.log(cpyFilters);
     } else {
       const indexOfCurrentOption = cpyFilters[getSectionId].indexOf(
         getCurrentOption.id
@@ -83,7 +82,6 @@ function StudentViewCoursesPage() {
       setStudentViewCourseList(response?.data);
       setLoadingState(false);
     }
-    console.log(response);
   }
   async function handleCourseNavigate(getCurrentCourseId) {
     const response = await checkCoursePurchaseInfoService(
@@ -119,8 +117,6 @@ function StudentViewCoursesPage() {
     if (filters !== null && sort !== null)
       fetchAllStudentViewCourses(filters, sort);
   }, [filters, sort]);
-
-  console.log(filters);
 
   return (
     <div className="container mx-auto p-4 ">

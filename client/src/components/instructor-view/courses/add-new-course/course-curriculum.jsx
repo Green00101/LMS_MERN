@@ -77,7 +77,7 @@ function CourseCurriculum() {
         bulkFormData,
         setMediaUploadPregressPercentage
       );
-      console.log(response);
+
       if (response?.success) {
         let cpyCourseCurriculumFormData =
           areAllCourseCurriculumFormDataObjectsEmpty(courseCurriculumFormData)
@@ -107,7 +107,6 @@ function CourseCurriculum() {
     if (selectedFile) {
       const videoFormData = new FormData();
       videoFormData.append("file", selectedFile);
-      console.log(videoFormData);
 
       try {
         setMediaUploadProgress(true);
@@ -138,7 +137,7 @@ function CourseCurriculum() {
     const deleteCurrentMediaResponse = await mediaDeleteService(
       getCurrentVideoPublicId
     );
-    console.log(deleteCurrentMediaResponse);
+
     if (deleteCurrentMediaResponse?.success) {
       cpyCourseCurriculumFormData[currentIndex] = {
         ...cpyCourseCurriculumFormData[currentIndex],
@@ -158,7 +157,7 @@ function CourseCurriculum() {
       );
     });
   }
-  console.log(courseCurriculumFormData);
+
   async function handleDeleteLecture(currentIndex) {
     let cpyCourseCurriculumFormData = [...courseCurriculumFormData];
     const getCurrentSelectedVideoPublicId =
